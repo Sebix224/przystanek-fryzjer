@@ -103,6 +103,9 @@ header{position:sticky;top:0;z-index:40;background:rgba(250,246,241,.9);backdrop
 .tile b{position:relative;z-index:1;font-family:"Cormorant Garamond",serif;font-size:1.6rem;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.25)}
 .tile span{position:absolute;top:20px;left:22px;z-index:1;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.22);padding:5px 10px;border-radius:999px}
 .gal-note{margin-top:22px;text-align:center;color:var(--muted);font-size:.95rem}
+.tile.ph{background-size:cover;background-position:center}
+.has-photo .arch-1{background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(40,20,40,.35)),var(--hero) center/cover no-repeat,linear-gradient(170deg,var(--lav) 0%,var(--sand) 100%)}
+.has-photo .arch-art{display:none}
 .rating{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:600;font-size:.92rem;color:var(--plum);margin-bottom:26px}
 .rating b{color:var(--gold);letter-spacing:.1em}
 .price-note{text-align:center;color:var(--muted);font-size:.9rem;margin-top:26px}
@@ -240,7 +243,7 @@ footer{background:var(--plum);color:var(--on-dark-2);padding:30px 0;font-size:.8
         <div><b>798 575 854</b>zadzwoń i umów wizytę</div>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true">
+    <div class="hero-art has-photo" aria-hidden="true" style="--hero:url('https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=800&q=70')">
       <div class="arch arch-1"></div>
       <div class="arch arch-2"></div>
       <div class="arch-art">
@@ -283,7 +286,7 @@ footer{background:var(--plum);color:var(--on-dark-2);padding:30px 0;font-size:.8
       <p>Efekty Państwa pracy, które klienci zobaczą, zanim przyjdą do salonu.</p>
     </div>
     <div class="gallery" id="gallery"></div>
-    <p class="gal-note">W gotowej stronie w tym miejscu pojawią się prawdziwe zdjęcia Państwa prac, np. z Instagrama.</p>
+    <p class="gal-note">Zdjęcia przykładowe z bezpłatnego banku zdjęć Unsplash. W gotowej stronie pojawią się tu prawdziwe zdjęcia Państwa prac, np. z Instagrama.</p>
   </div>
 </section>
 
@@ -377,7 +380,7 @@ footer{background:var(--plum);color:var(--on-dark-2);padding:30px 0;font-size:.8
   const STORE = 'przystanek-fryzjer-rezerwacje';
   const SVC_CARDS = [{"t":"Strzyżenie damskie","d":"Cięcia krótkie i długie, grzywki, odświeżenie fryzury.","ico":"scissors"},{"t":"Strzyżenie męskie","d":"Klasyczne cięcia, fade i trymowanie brody.","ico":"barber"},{"t":"Koloryzacja","d":"Farbowanie, refleksy, balayage i tonowanie.","ico":"drop"},{"t":"Stylizacja","d":"Modelowanie, fale i upięcia na wyjątkowe okazje.","ico":"sparkle"}];
   const PRICES = [{"t":"Dla Pań","items":[["Strzyżenie + modelowanie","90 zł"],["Modelowanie","60 zł"],["Grzywka","20 zł"],["Upięcie","od 120 zł"]]},{"t":"Dla Panów","items":[["Strzyżenie męskie","45 zł"],["Strzyżenie + broda","70 zł"],["Trymowanie brody","30 zł"],["Strzyżenie dziecięce","35 zł"]]},{"t":"Koloryzacja","items":[["Farbowanie odrostów","od 140 zł"],["Koloryzacja całościowa","od 190 zł"],["Balayage","od 330 zł"],["Tonowanie","90 zł"]]}];
-  const GALLERY = [["Koloryzacja","Ciepły blond"],["Strzyżenie","Bob z grzywką"],["Męskie","Fade + broda"],["Stylizacja","Fale na wieczór"],["Koloryzacja","Balayage"],["Pielęgnacja","Regeneracja"]];
+  const GALLERY = [["Koloryzacja","Ciepły blond","1497433550656-7fb185be365e"],["Strzyżenie","Cięcie długich włosów","1700760934268-8aa0ef52ce0a"],["Męskie","Fade + broda","1657105052497-f996284ffff8"],["Stylizacja","Fale na wieczór","1785456283212-338f5bc44d50"],["Koloryzacja","Chłodny blond","1605980766335-d3a41c7332a1"],["Pielęgnacja","Regeneracja","1634449571010-02389ed0f9b0"]];
   const ICONS = {
     scissors: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.2 15.8 19 3M15.8 15.8 5 3"/></svg>',
     drop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7c3.5 4.2 6 7.5 6 10.8a6 6 0 0 1-12 0c0-3.3 2.5-6.6 6-10.8z"/></svg>',
@@ -393,8 +396,8 @@ footer{background:var(--plum);color:var(--on-dark-2);padding:30px 0;font-size:.8
     `<article class="svc"><div class="svc-ico">${ICONS[s.ico] || ICONS.sparkle}</div><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></article>`).join('');
   document.getElementById('price-cols').innerHTML = PRICES.map(c =>
     `<div class="price-col"><h3>${esc(c.t)}</h3><ul>${c.items.map(([n, p]) => `<li><span>${esc(n)}</span><i></i><b>${esc(p)}</b></li>`).join('')}</ul></div>`).join('');
-  document.getElementById('gallery').innerHTML = GALLERY.map(([tag, t]) =>
-    `<div class="tile"><span>${esc(tag)}</span><b>${esc(t)}</b></div>`).join('');
+  document.getElementById('gallery').innerHTML = GALLERY.map(([tag, t, img]) =>
+    `<div class="tile${img ? ' ph' : ''}"${img ? ` style="background-image:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,0) 58%),url('https://images.unsplash.com/photo-${img}?auto=format&fit=crop&w=600&h=750&q=70')"` : ''}><span>${esc(tag)}</span><b>${esc(t)}</b></div>`).join('');
   const DAY_NAMES = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
   document.getElementById('hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d =>
     `<li data-d="${d}"><span>${DAY_NAMES[d]}</span><span>${HOURS[d] ? `${HOURS[d][0]}:00–${HOURS[d][1]}:00` : 'nieczynne'}</span></li>`).join('');
